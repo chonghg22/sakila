@@ -3,51 +3,38 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-<!-- 페이징 관련 비지니스 로직 -->
+<html lang="en">
+<head>
+<title>Customer List</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
 <%
         CustomerDao customerDao = new CustomerDao();
         ArrayList<CustomerAndStoreAndAddress> customerList = customerDao.selectCustomerListAll();
 %>
         <h1>Customer List</h1>
         <div>
-       		<a href="<%=request.getContextPath() %>/customer/insertCustomerForm.jsp">고객 </a>     
+       		<a href="<%=request.getContextPath() %>/customer/insertCustomerForm.jsp">추가 </a>     
         </div>
-        <table border = "1"  class="wrapper style2 spotlights" >
+        <table>
         	<thead>
         		<tr>
-	        		<th>customer_id</th>
-	        		<th>store_id</th>
-	        		<th>first_name</th>
-	        		<th>last_name</th>
-	        		<th>email</th>
-	        		<th>address_id</th>
-	        		<th>address</th>
-	        		<th>phone</th>
-	        		<th>active</th>
-	        		<th>create_date</th>
-	        		<th>last_update</th>
+	        		<th>CustomerId</th>
+	        		<th>StoreId</th>
+	        		<th>FirstName</th>
+	        		<th>LastName</th>
+	        		<th>Email</th>
+	        		<th>AddressId</th>
+	        		<th>Address</th>
+	        		<th>Phone</th>
+	        		<th>Active</th>
+	        		<th>CreateDate</th>
+	        		<th>LastUpdate</th>
         		</tr>
         	</thead>
         	<tbody>
@@ -55,23 +42,23 @@
         		for(CustomerAndStoreAndAddress c : customerList) {
 %>
         			<tr>
-        				<td><%= c.getCustomer().getCustomerId() %></td>
-        				<td><%= c.getStore().getStoreId() %></td>
-        				<td><%= c.getCustomer().getFirstName() %></td>
-        				<td><%= c.getCustomer().getLastName() %></td>
-        				<td><%= c.getCustomer().getEmail() %></td>
-        				<td><%= c.getAddress().getAddressId() %></td>
-        				<td><%= c.getAddress().getAddress() %></td>
-        				<td><%= c.getAddress().getPhone() %></td>
-        				<td><%= c.getCustomer().getActive() %></td>
-        				<td><%= c.getCustomer().getCreateDate() %></td>
-        				<td><%= c.getCustomer().getLastUpdate() %></td>
+        				<td data-column="CustomerId"><%= c.getCustomer().getCustomerId() %></td>
+        				<td data-column="StoreId"><%= c.getStore().getStoreId() %></td>
+        				<td data-column="FirstName"><%= c.getCustomer().getFirstName() %></td>
+        				<td data-column="LastName"><%= c.getCustomer().getLastName() %></td>
+        				<td data-column="Email"><%= c.getCustomer().getEmail() %></td>
+        				<td data-column="AddressId"><%= c.getAddress().getAddressId() %></td>
+        				<td data-column="Address"><%= c.getAddress().getAddress() %></td>
+        				<td data-column="Phone"><%= c.getAddress().getPhone() %></td>
+        				<td data-column="Active"><%= c.getCustomer().getActive() %></td>
+        				<td data-column="CreateDate"><%= c.getCustomer().getCreateDate() %></td>
+        				<td data-column="LastUpdate"><%= c.getCustomer().getLastUpdate() %></td>
         			</tr>
 <%		
         		}
 %>
         	</tbody>
         </table>
-    </div>
+        
 </body>
 </html>

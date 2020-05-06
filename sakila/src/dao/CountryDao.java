@@ -7,10 +7,9 @@ public class CountryDao {
    public void insertCountry(Country country) throws Exception{
       DBUtil dbUtil = new DBUtil();
       Connection conn = dbUtil.getConnection();
-      String sql = "insert into country(country_id, country, last_update) values (?,?, now())";
+      String sql = "insert into country( country, last_update) values (?, now())";
       PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, country.getCountryId());
-      stmt.setString(2,  country.getCountry());
+      stmt.setString(1,  country.getCountry());
       stmt.executeQuery();
       
    }

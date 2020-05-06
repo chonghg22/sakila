@@ -1,8 +1,20 @@
 package dao;
 import java.sql.*;
 import java.util.*;
+
+import util.DBUtil;
 import vo.*;
 public class ActorDao {
+	public void updateActor(Actor actor) throws Exception{
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "UPDATE actor SET first_name=?, last_name=? WHERE actor_id=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, actor.getFirstName());
+		stmt.setString(2, actor.getLastName());
+		stmt.setInt(3, actor.getActorId());
+		stmt.executeUpdate();
+	}
 	
 	public void deleteActor(int actorId) throws Exception {
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -23,14 +35,15 @@ public class ActorDao {
 		}
 		return totalCount;
 	}
-	public ArrayList<Actor> selectActorByPage(int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<Actor> selectActorByPage( String searchWord,int beginRow, int rowPerPage) throws Exception{
 		System.out.println(beginRow +"/1/class");
 		System.out.println(rowPerPage + "/2/class");
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("select * from actor limit ?,?");
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);		
+		PreparedStatement stmt = conn.prepareStatement("select * from actor WHERE first_name like ? ORDER BY actor_id limit ?,?");
+		stmt.setString(1, "%"+searchWord+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);		
 		ResultSet rs = stmt.executeQuery();
 		//ResultSet -> Arraylist 로 변경
 		ArrayList<Actor> list = new ArrayList<Actor>();

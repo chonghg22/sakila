@@ -3,29 +3,16 @@
 <%@ page import="vo.*"%>
 <%@ page import="java.util.*"%>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-<!-- 페이징 관련 비지니스 로직 -->
+<html lang="en">
+<head>
+<title>Payment List</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
 	<%
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -50,24 +37,23 @@
 				<button type="submit">검색</button>
 			</div>
 		</form>
-		<a href="<%=request.getContextPath()%>/payment/insertPaymentForm.jsp">Insert Payment</a>
-		<table border="1">
+		<a href="<%=request.getContextPath()%>/payment/insertPaymentForm.jsp">추가</a>
+		<table>
 			<thead>
 				<tr>
-					<th>PAYMENT ID</th>
-					<th>CUSTOMER ID</th>
-					<th>FIRST NAME</th>
-					<th>LAST NAME</th>
-					<th>EMAIL</th>
-					<th>STAFF ID</th>
-					<th>FIRST NAME</th>
-					<th>LAST NAME</th>
-					<th>EMAIL</th>
-					<th>RENTAL ID</th>
-					<th>RENTAL DATE</th>
-					<th>INVENTORY ID</th>
-					<th>RETURN DATE</th>
-					<th>AMOUNT</th>
+					<th>PaymentId</th>
+					<th>CustomerId</th>
+					<th>FirstName</th>
+					<th>LastName</th>
+					<th>Email</th>
+					<th>StaffId</th>
+					<th>FirstName</th>
+					<th>LastName</th>
+					<th>RentalId</th>
+					<th>RentalDate</th>
+					<th>InventoryId</th>
+					<th>ReturnDate</th>
+					<th>Amount</th>
 					<th>PAYMENT DATE</th>
 				</tr>
 
@@ -77,21 +63,20 @@
 					for (PaymentAndCustomerAndStaffAndRental pcsr : list) {
 				%>
 				<tr>
-					<td><%=pcsr.getPayment().getPaymentId()%></td>
-					<td><%=pcsr.getPayment().getCustomerId()%></td>
-					<td><%=pcsr.getCustomer().getFirstName()%></td>
-					<td><%=pcsr.getCustomer().getLastName()%></td>
-					<td><%=pcsr.getCustomer().getEmail()%></td>
-					<td><%=pcsr.getPayment().getStaffId()%></td>
-					<td><%=pcsr.getStaff().getFirstName()%></td>
-					<td><%=pcsr.getStaff().getLastName()%></td>
-					<td><%=pcsr.getStaff().getEmail()%></td>
-					<td><%=pcsr.getPayment().getRentalId()%></td>
-					<td><%=pcsr.getRental().getRentalDate()%></td>
-					<td><%=pcsr.getRental().getInventoryId()%></td>
-					<td><%=pcsr.getRental().getReturnDate()%></td>
-					<td><%=pcsr.getPayment().getAmount()%></td>
-					<td><%=pcsr.getPayment().getPaymentDate()%></td>
+					<td data-column="PaymentId"><%=pcsr.getPayment().getPaymentId()%></td>
+					<td data-column="CustomerId"><%=pcsr.getPayment().getCustomerId()%></td>
+					<td data-column="FirstName"><%=pcsr.getCustomer().getFirstName()%></td>
+					<td data-column="LastName"><%=pcsr.getCustomer().getLastName()%></td>
+					<td data-column="Email"><%=pcsr.getCustomer().getEmail()%></td>
+					<td data-column="StaffId"><%=pcsr.getPayment().getStaffId()%></td>
+					<td data-column="FirstName"><%=pcsr.getStaff().getFirstName()%></td>
+					<td data-column="LastName"><%=pcsr.getStaff().getLastName()%></td>
+					<td data-column="RentalId"><%=pcsr.getPayment().getRentalId()%></td>
+					<td data-column="RentalDate"><%=pcsr.getRental().getRentalDate()%></td>
+					<td data-column="InventoryId"><%=pcsr.getRental().getInventoryId()%></td>
+					<td data-column="ReturnDate"><%=pcsr.getRental().getReturnDate()%></td>
+					<td data-column="Amount"><%=pcsr.getPayment().getAmount()%></td>
+					<td data-column="PaymentDate"><%=pcsr.getPayment().getPaymentDate()%></td>
 				</tr>
 				<%
 					}
@@ -118,6 +103,5 @@
 		<%
 			}
 		%>
-	</div>
 </body>
 </html>

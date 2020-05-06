@@ -8,52 +8,60 @@
 <meta name="description" content="Colorlib Templates">
 <meta name="author" content="Colorlib">
 <meta name="keywords" content="Colorlib Templates">
-<title>InsertForm</title>
+<title>UpdateForm</title>
 <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
 <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-<link href="/blog/css/registerForm.css" rel="stylesheet" media="all">
+<link href="/sakila/css/registerForm.css" rel="stylesheet" media="all">
 </head>
 <body>
+<%
+	int actorId = Integer.parseInt(request.getParameter("actorId"));
+	System.out.println(actorId + "/actorId/updateActorForm");
+%>
 	<div>	
 		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
 	</div> 
-	<%
-			int countryId = Integer.parseInt(request.getParameter("countryId"));
-		System.out.println(countryId + "<--insertCityForm/countryId");
-		String city = request.getParameter("city");
-		%>
 	<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
 		<div class="wrapper wrapper--w790">
 			<div class="card card-5">
 				<div class="card-heading">
-					<h2 class="title">Insert City</h2>
+					<h2 class="title">Update Actor</h2>
 				</div>
 				<div class="card-body">
-					<form method="post"	action="<%=request.getContextPath()%>/city/insertCityAction.jsp">		
+					<form method = "post" action="<%=request.getContextPath()%>/actor/updateActorAction.jsp">				
 						
 					
-						
 						<div class="form-row">
 							<div class="name">
-							City:
+							ActorId:
 							</div>
 							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type="text" name="city" >
+									<input class="input--style-5" type="text" name="actorId" value = <%=actorId %>  readonly>
+								</div>
+							</div>
+						</div>	
+						<div class="form-row">
+							<div class="name">
+							FirstName:
+							</div>
+							<div class="value">
+								<div class="input-group">
+									<input class="input--style-5" type="text" name="firstName" >
 								</div>
 							</div>
 						</div>		
 									
 						<div class="form-row">
 							<div class="name">
-							CountryId:
+							LastName:
 							</div>
 							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type = "text" name="countryId" value=<%=countryId%> readonly="readonly">
+									<input class="input--style-5" type="text" name="lastName" >
 								</div>
 							</div>
 						</div>	

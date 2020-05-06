@@ -7,14 +7,68 @@ import java.util.*;
 
 
 public class AddressDao {
-	
-	// addressList
-	public ArrayList<AddressAndCityAndCountry> SelectAddress() throws Exception{
+	public void updateAddress(Address address) throws Exception{
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "UPDATE address SET address=?, address2=?, district=?, city_id=?, postal_code=?, phone=? WHERE address_id=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, address.getAddress());
+		stmt.setString(2, address.getAddress2());
+		stmt.setString(3, address.getDistrict());
+		stmt.setInt(4, address.getCityId());
+		stmt.setString(5, address.getPostalCode());
+		stmt.setString(6, address.getPhone());
+		stmt.setInt(7, address.getAddressId());
+		stmt.executeUpdate();
+	}
+	public int SelectCountAddress() throws Exception{
 	      DBUtil dbUtil = new DBUtil();
 	      Connection conn = dbUtil.getConnection();
-	      String sql = 
-	    "SELECT ad.*,co.*,ci.* FROM address ad INNER JOIN country co INNER JOIN city ci ON ad.city_id = ci.city_id AND ci.country_id = co.country_id ORDER BY ad.city_id";
+	      String sql = "SELECT COUNT(*) cnt FROM address";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
+	      ResultSet rs = stmt.executeQuery();
+	      int totalCount = 0;
+	      if(rs.next()) {
+	    	  totalCount = rs.getInt("cnt");
+	      }
+	      return totalCount;
+	}
+	
+	
+	public ArrayList<Address> SelectAddressOne() throws Exception{
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT * FROM address";
+		PreparedStatement stmt = conn.prepareStatement(sql); 
+		ResultSet rs = stmt.executeQuery();
+		ArrayList<Address> list = new ArrayList<Address>();
+		while(rs.next()) {
+			Address address = new Address();			
+			address.setAddressId(rs.getInt("address_id"));
+			address.setAddress(rs.getString("address"));
+			address.setAddress2(rs.getString("address2"));
+			address.setDistrict(rs.getString("district"));
+			address.setCityId(rs.getInt("city_id"));
+			address.setPostalCode(rs.getString("postal_code"));
+			address.setPhone(rs.getString("phone"));
+			address.setLastUpdate(rs.getString("last_update"));
+			list.add(address);			
+		}
+		
+		return list;
+	}
+	
+	// addressList
+	public ArrayList<AddressAndCityAndCountry> SelectAddress(String searchWord, int beginRow, int rowPerPage ) throws Exception{
+		  System.out.println(searchWord + "/searchWrod");
+	      DBUtil dbUtil = new DBUtil();
+	      Connection conn = dbUtil.getConnection();
+	      String sql = "SELECT ad.*,co.*,ci.* FROM address ad INNER JOIN country co INNER JOIN city ci "
+	      		+ "ON ad.city_id = ci.city_id AND ci.country_id = co.country_id WHERE ad.address like ? ORDER BY ad.address_id limit ?,?";
+	      PreparedStatement stmt = conn.prepareStatement(sql);
+	      stmt.setString(1, "%"+searchWord+"%");
+	      stmt.setInt(2, beginRow);
+	      stmt.setInt(3, rowPerPage);
 	      ResultSet rs = stmt.executeQuery();
 	      ArrayList<AddressAndCityAndCountry> list = new ArrayList<AddressAndCityAndCountry>();
 	      while(rs.next()) {
@@ -54,7 +108,7 @@ public class AddressDao {
 	   }
 	
 	/*
-	// addressList cityId °ª °¡Á®¿À´Â ºÎºÐ
+	// addressList cityId ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½
 	public City selectCityId(int cityId) throws Exception{
 	      DbUtil dbUtil = new DbUtil();
 	      Connection conn = dbUtil.getConnection();
@@ -82,18 +136,17 @@ public class AddressDao {
 		System.out.println(a.getPhone() + " <-- a.getPhone");
 		
 		String sql = 
-		"INSERT INTO address(address_id, address, address2, district, city_id, postal_code, phone, last_update) VALUES(?, ?, ?, ?, ?, ?, ?, now())";
+		"INSERT INTO address(address, address2, district, city_id, postal_code, phone, last_update) VALUES(?, ?, ?, ?, ?, ?, now())";
 		
 		DBUtil dbutil = new DBUtil();
 		Connection conn = dbutil.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, a.getAddressId());
-		stmt.setString(2, a.getAddress());
-		stmt.setString(3, a.getAddress2());
-		stmt.setString(4, a.getDistrict());
-		stmt.setInt(5, a.getCityId());
-		stmt.setString(6, a.getPostalCode());
-		stmt.setString(7, a.getPhone());
+		stmt.setString(1, a.getAddress());
+		stmt.setString(2, a.getAddress2());
+		stmt.setString(3, a.getDistrict());
+		stmt.setInt(4, a.getCityId());
+		stmt.setString(5, a.getPostalCode());
+		stmt.setString(6, a.getPhone());
 		stmt.executeUpdate();
 	}
 	

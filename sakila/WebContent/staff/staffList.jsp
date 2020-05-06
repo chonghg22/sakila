@@ -4,52 +4,39 @@
 <%@ page import= "vo.*" %>
 
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-<!-- 페이징 관련 비지니스 로직 -->
+<html lang="en">
+<head>
+<title>Staff List</title>
+<meta charset="utf-8">
+<link href="/blog/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
 <%
 	StaffDao sDao = new StaffDao();
 	ArrayList<StaffAndAddressAndStore> list = sDao.selectStaffListAll();
 %>
         <h1>Staff List</h1>
 	        <div>
-	            <a href="<%=request.getContextPath()%>/staff/insertStaffForm.jsp">직원 생성</a>
+	            <a href="<%=request.getContextPath()%>/staff/insertStaffForm.jsp">추가</a>
 	        </div>
-        	<table border="1">
+        	<table>
         		<thead>
         			<tr>
-        				<th>staff_id</th>
-        				<th>first_name</th>
-        				<th>last_name</th>
-        				<th>address_id</th>
-        				<th>phone</th>
-        				<th>picture</th>
-        				<th>email</th>
-        				<th>store_id</th>
-        				<th>active</th>
-        				<th>user_name</th>
-        				<th>password</th>
-        				<th>last_update</th>
+        				<th>StaffId</th>
+        				<th>FirstName</th>
+        				<th>LastName</th>
+        				<th>AddressId</th>
+        				<th>Phone</th>
+        				<th>Picture</th>
+        				<th>Email</th>
+        				<th>StoreId</th>
+        				<th>Active</th>
+        				<th>UserName</th>
+        				<th>Password</th>
+        				<th>LastUpdate</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -57,18 +44,18 @@
 				for(StaffAndAddressAndStore s : list) {
 %>
 					<tr>
-						<td><%=s.getStaff().getStaffId() %></td>
-						<td><%=s.getStaff().getFirstName() %></td>
-						<td><%=s.getStaff().getLastName() %></td>
-						<td><%=s.getAddress().getAddressId() %></td>
-						<td><%=s.getAddress().getPhone() %></td>
-						<td><%=s.getStaff().getPicture() %></td>
-						<td><%=s.getStaff().getEmail() %></td>
-						<td><%=s.getStore().getStoreId() %></td>
-						<td><%=s.getStaff().getActive() %></td>
-						<td><%=s.getStaff().getUserName() %></td>
-						<td><%=s.getStaff().getPassword() %></td>
-						<td><%=s.getStaff().getLastUpdate() %></td>
+						<td data-column="StaffId"><%=s.getStaff().getStaffId() %></td>
+						<td data-column="FirstName"><%=s.getStaff().getFirstName() %></td>
+						<td data-column="LastName"><%=s.getStaff().getLastName() %></td>
+						<td data-column="AddressId"><%=s.getAddress().getAddressId() %></td>
+						<td data-column="Phone"><%=s.getAddress().getPhone() %></td>
+						<td data-column="Picture"><%=s.getStaff().getPicture() %></td>
+						<td data-column="Email"><%=s.getStaff().getEmail() %></td>
+						<td data-column="StoreId"><%=s.getStore().getStoreId() %></td>
+						<td data-column="Active"><%=s.getStaff().getActive() %></td>
+						<td data-column="UserName"><%=s.getStaff().getUserName() %></td>
+						<td data-column="Password"><%=s.getStaff().getPassword() %></td>
+						<td data-column="LastUpdate"><%=s.getStaff().getLastUpdate() %></td>
 					</tr>
 <%						
 					}
@@ -76,6 +63,6 @@
         		</tbody>
         	
         	</table>
-    </div>
+
 </body>
 </html>

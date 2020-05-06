@@ -5,47 +5,57 @@
 <%@ page import="java.util.*"%>
 
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<html lang="en">
 <head>
-<title>Hyperspace by HTML5 UP</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/main.css" />
-<noscript>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/noscript.css" />
-</noscript>
+<title>AddressList</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
 </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
 
 <!-- 페이징 관련 비지니스 로직 -->
 <%
-   ArrayList<AddressAndCityAndCountry> list = new AddressDao().SelectAddress();
+	
+	//
+	String searchWord = "";
+	if(request.getParameter("searchWord") != null){
+		searchWord = request.getParameter("searchWord");
+	}
+	
+	//
+	int currentPage = 1;
+	if(request.getParameter("currentPage")!=null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 10;
+	int beginRow = (currentPage-1) * rowPerPage;
+//	
+	AddressDao addressDao = new AddressDao();
+	ArrayList<AddressAndCityAndCountry> list = addressDao.SelectAddress(searchWord, beginRow, rowPerPage);
 %>
-  
 
-      <h1>ADDRESS MANAGEMENT</h1>
-       <table border = "1"  class="wrapper style2 spotlights" >
+
+      <h1>Address List</h1>
+      <a href="<%=request.getContextPath()%>/address/insertAddressForm.jsp">추가</a>
+      <form method = "post" action = "<%=request.getContextPath() %>/address/addressList.jsp">       
+       <input type="text" name = "searchWord">
+       <button type = "submit" name = "submit">찾기</button>
+       </form>
+       
+       <table>
          <thead>
             <tr>
-               <th>CITY ID</th>
-               <th>COUNTRY</th>
-               <th>CITY</th>
-               <th>ADDRESS</th>
-               <th>ADDRESS2</th>
-               <th>POSTAL CODE</th>
+               <th>AddressId</th>
+               <th>CityId</th>
+               <th>Country</th>
+               <th>City</th>
+               <th>Address</th>
+               <th>Address2</th>
+               <th>PostalCode</th>
+               <th>수정</th>
             </tr>
             
          </thead>
@@ -54,28 +64,44 @@
                for(AddressAndCityAndCountry ad : list){
             %>
                <tr>
-                  <th><%=ad.getCity().getCityId() %></th>
-                  <th><%=ad.getCountry().getCountry() %></th>
-                  <th><%=ad.getCity().getCity() %></th>
-                  <th><%=ad.getAddress().getAddress() %></th>
-                  <th><%=ad.getAddress().getAddress2() %></th>
-                  <th><%=ad.getAddress().getPostalCode() %></th>
+               	  <td data-column="AddressId"><%=ad.getAddress().getAddressId() %></td>
+                  <td data-column="CityId"><%=ad.getCity().getCityId() %></td>
+                  <td data-column="Country"><%=ad.getCountry().getCountry() %></td>
+                  <td data-column="City"><%=ad.getCity().getCity() %></td>
+                  <td data-column="Address"><%=ad.getAddress().getAddress() %></td>
+                  <td data-column="Address2"><%=ad.getAddress().getAddress2() %></td>
+                  <td data-column="PostalCode"><%=ad.getAddress().getPostalCode() %></td>
+                  <td data-column="수정">
+                  	<a href = "<%=request.getContextPath()%>/address/updateAddressForm.jsp?addressId=<%=ad.getAddress().getAddressId()%>">수정</a>
+                  </td>
                </tr>
-            <%   
+               <%   
                }
             %>
          </tbody>
-      </table>
-      <%
-      	/*
-         City city = new City();
-         int cityId = city.getCityId();
-         System.out.println(cityId);
-         city = new AddressDao().selectCityId(cityId);
-         System.out.println(city);
-        */
-      %>
-      <a href="<%=request.getContextPath()%>/address/insertAddressForm.jsp">ADDRESS INSERT</a>
-    </div>
+      </table>     
+   
+            
+            <%
+            int totalCount = addressDao.SelectCountAddress(); 
+            int lastPage = totalCount / rowPerPage;
+			if(totalCount %rowPerPage !=0){
+				lastPage += 1;
+			}
+            %>
+            <%
+            if (currentPage > 1){
+            %>
+            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage - 1%>">이전페이지</a>
+            <%
+            }
+            %>
+            <%
+            if (currentPage <lastPage){
+            %>
+            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage + 1%>">다음페이지</a>
+            <%
+            }
+            %>
 </body>
 </html>

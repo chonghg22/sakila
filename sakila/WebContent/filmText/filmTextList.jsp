@@ -5,36 +5,24 @@
 <%@ page import="java.util.*"%>
 <%@ page import="util.*"%>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-<!-- 페이징 관련 비지니스 로직 -->
-		<h1>FILMTEXT LIST</h1>
-		<table border = "1"  class="wrapper style2 spotlights" >
+<html lang="en">
+<head>
+<title>FilmText List</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
+		<h1>FilmText List</h1>
+			<a href="<%=request.getContextPath()%>/film/insertFilmTextForm.jsp">추가</a>
+		<table >
 			<thead>
 				<tr>
-					<th>FLIMID</th>
-					<th>TITLE</th>
-					<th>DESCRIPTION</th>
+					<th>FlimId</th>
+					<th>Title</th>
+					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,20 +33,14 @@
 				%>
 
 				<tr>
-					<th><%=c.getFilmId()%></th>
-					<th><%=c.getTitle()%></th>
-					<th><%=c.getDescription()%></th>
+					<td data-column="FlimId"><%=c.getFilmId()%></td>
+					<td data-column="Title"><%=c.getTitle()%></td>
+					<td data-column="Description"><%=c.getDescription()%></td>
 				</tr>
 				<%
 					}
 				%>
 			</tbody>
 		</table>
-
-		<div>
-			<a href="<%=request.getContextPath()%>/film/insertFilmTextForm.jsp">filmText
-				입력</a>
-		</div>
-	</div>
 </body>
 </html>

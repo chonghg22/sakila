@@ -4,30 +4,16 @@
 <%@ page import="vo.*"%>
 <%@ page import="java.util.*"%>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-<!-- 페이징 관련 비지니스 로직 -->
+<html lang="en">
+<head>
+<title>Inventory List</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
 	<%
 		String searchWord = "";
 		if (request.getParameter("searchWord") != null) {
@@ -37,7 +23,7 @@
 		ArrayList<InventoryAndStoreAndFilm> list = new InventoryDao().SelectInventory(searchWord);
 	%>
 
-		<h1>INVENTORY List</h1>
+		<h1>Inventory List</h1>
 		<form method="post"
 			action="<%=request.getContextPath()%>/inventory/inventoryList.jsp">
 			<div>
@@ -45,25 +31,24 @@
 				<button type="submit">검색</button>
 			</div>
 		</form>
-		<a href="<%=request.getContextPath()%>/inventory/insertInventoryForm.jsp">INSERT INVENTORY</a>
-		<table border = "1"  class="wrapper style2 spotlights" >
+		<a href="<%=request.getContextPath()%>/inventory/insertInventoryForm.jsp">추가</a>
+		<table >
 			<thead>
 				<tr>
-					<th>INVENTORY ID</th>
-					<th>FILM ID</th>
-					<th>TITLE</th>
-					<th>DESCRIPTION</th>
-					<th>RELEASE YEAR</th>
-					<th>LANGUAGE ID</th>
-					<th>ORIGINAL LANGUAGE ID</th>
-					<th>RENTAL DURATION</th>
-					<th>RENTAL RATE</th>
-					<th>LENGTH</th>
-					<th>REPLACEMENT COST</th>
-					<th>RATING</th>
-					<th>SPECIAL FEATURES</th>
-					<th>STORE ID</th>
-					<th>MANAGER STAFF ID</th>
+					<th>InventoryId</th>
+					<th>FilmId</th>
+					<th>Title</th>
+					<th>Description</th>
+					<th>ReleaseYear</th>
+					<th>LanguageId</th>					
+					<th>RentalDuration</th>
+					<th>RentalRate</th>
+					<th>Length</th>
+					<th>ReplacementCost</th>
+					<th>Rating</th>
+					<th>SpecialFeatures</th>
+					<th>StoreId</th>
+					<th>ManagerStaffId</th>
 				</tr>
 
 			</thead>
@@ -72,21 +57,20 @@
 					for (InventoryAndStoreAndFilm isf : list) {
 				%>
 				<tr>
-					<td><%=isf.getInventory().getInventoryId()%></td>
-					<td><%=isf.getInventory().getFilmId()%></td>
-					<td><%=isf.getFilm().getTitle()%></td>
-					<td><%=isf.getFilm().getDescription()%></td>
-					<td><%=isf.getFilm().getReleaseYear()%></td>
-					<td><%=isf.getFilm().getLanguageId()%></td>
-					<td><%=isf.getFilm().getOriginalLanguageId()%></td>
-					<td><%=isf.getFilm().getRentalDuration()%></td>
-					<td><%=isf.getFilm().getRentalRate()%></td>
-					<td><%=isf.getFilm().getLength()%></td>
-					<td><%=isf.getFilm().getReplacementCost()%></td>
-					<td><%=isf.getFilm().getRating()%></td>
-					<td><%=isf.getFilm().getSpecialFeatures()%></td>
-					<td><%=isf.getInventory().getStoreId()%></td>
-					<td><%=isf.getStore().getManagerStaffId()%></td>
+					<td data-column="InventoryId"><%=isf.getInventory().getInventoryId()%></td>
+					<td data-column="FilmId"><%=isf.getInventory().getFilmId()%></td>
+					<td data-column="Title"><%=isf.getFilm().getTitle()%></td>
+					<td data-column="Description"><%=isf.getFilm().getDescription()%></td>
+					<td data-column="ReleaseYear"><%=isf.getFilm().getReleaseYear()%></td>
+					<td data-column="LanguageId"><%=isf.getFilm().getLanguageId()%></td>
+					<td data-column="RentalDuration"><%=isf.getFilm().getRentalDuration()%></td>
+					<td data-column="RentalRate"><%=isf.getFilm().getRentalRate()%></td>
+					<td data-column="Length"><%=isf.getFilm().getLength()%></td>
+					<td data-column="ReplacementCost"><%=isf.getFilm().getReplacementCost()%></td>
+					<td data-column="Rating"><%=isf.getFilm().getRating()%></td>
+					<td data-column="SpecialFeatures"><%=isf.getFilm().getSpecialFeatures()%></td>
+					<td data-column="StoreId"><%=isf.getInventory().getStoreId()%></td>
+					<td data-column="ManagerStaffId"><%=isf.getStore().getManagerStaffId()%></td>
 				</tr>
 				<%
 					}
@@ -102,8 +86,6 @@
 			 System.out.println(city);
 			*/
 		%>
-		<a href="<%=request.getContextPath()%>/address/insertAddressForm.jsp">ADDRESS
-			INSERT</a>
-	</div>
+		
 </body>
 </html>

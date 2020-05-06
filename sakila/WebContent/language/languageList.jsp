@@ -3,29 +3,17 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-   <head>
-      <title>Hyperspace by HTML5 UP</title>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-      <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/main.css" />
-      <noscript><link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/noscript.css" /></noscript>
-   </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-     <h1>LANGUAGE LIST</h1>
+<html lang="en">
+<head>
+<title>LanguageList</title>
+<meta charset="utf-8">
+<link href="/blog/css/listForm.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
+     <h1>Language List</h1>
      <%
         String searchword = "";
         if(request.getParameter("searchword")!=null){
@@ -39,13 +27,13 @@
         <button type="submit">검색</button>
      </form>
      <br>
-     <table border = "1"  >
+     <table >
      <thead>
         <tr>
-           <th>language_id</th>
+           <th>languageId</th>
            <th>name</th>
-           <th>last_update</th>
-           <th>language 입력</th>
+           <th>lastUpdate</th>
+           <th>언어추가</th>
         </tr>
      </thead>
      <tbody>
@@ -53,10 +41,10 @@
            for(Language l: list){
         %>   
            <tr>
-              <td><%=l.getLanguageId()%></td>
-              <td><%=l.getName()%></td>
-              <td><%=l.getLastUpdate()%></td>
-              <td><a href="<%=request.getContextPath()%>/language/insertLanguageForm.jsp?languageId=<%=l.getLanguageId()%>">LANGUAGE 입력</a></td>
+              <td data-column="languageId"><%=l.getLanguageId()%></td>
+              <td data-column="name"><%=l.getName()%></td>
+              <td data-column="lastUpdate"><%=l.getLastUpdate()%></td>
+              <td data-column="언어추가"><a href="<%=request.getContextPath()%>/language/insertLanguageForm.jsp?languageId=<%=l.getLanguageId()%>">언어추가</a></td>
            </tr>   
         <%   
            }

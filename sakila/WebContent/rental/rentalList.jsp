@@ -4,33 +4,20 @@
 <%@ page import="vo.*"%>
 <%@ page import="dao.*" %>
 <!DOCTYPE HTML>
-<!--
-   Hyperspace by HTML5 UP
-   html5up.net | @ajlkn
-   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<html lang="en">
 <head>
-<title>Hyperspace by HTML5 UP</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/main.css" />
-<noscript>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/noscript.css" />
-</noscript>
+<title>Rental List</title>
+<meta charset="utf-8">
+<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
 </head>
-<body class="is-preload">
-	<!-- Wrapper -->
-	<div id="wrapper">
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div id="aside">
-				<jsp:include page="/inc/sidemenu.jsp"></jsp:include><!-- include는 서버 기술이라서 requset.getContextPath()가 오면 안됨  -->
-			</div>
-		</section>
-
-<!-- 페이징 관련 비지니스 로직 -->
-        <h1>RENTAL</h1>
+<body>
+	<div>	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+	</div> 
+        <h1>Rental List</h1>
+        <div>
+            <a href="<%=request.getContextPath()%>/rental/insertRentalForm.jsp">추가</a>
+        </div>
         <%
         	//searchWord 메소드
         	String searchWord = "";
@@ -46,16 +33,16 @@
         	<button type = "submit">검색</button>
         </form>
         <br>
-        	<table border = "1">
+        	<table>
         		<thead>
         			<tr>
-        				<th>RENTAL ID</th>
-        				<th>RENTAL DATE</th>
-        				<th>INVENTORY ID</th>
-        				<th>CUSTOMER ID</th>
-        				<th>RETURN DATE</th>
-        				<th>STAFF ID</th>
-        				<th>LAST UPDATE</th>
+        				<th>RentalId</th>
+        				<th>RentalDate</th>
+        				<th>InventoryId</th>
+        				<th>CustomerId</th>
+        				<th>ReturnDate</th>
+        				<th>StaffId</th>
+        				<th>LastUpdate</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -63,13 +50,13 @@
         				for(RentalAndInventoryAndCustomerAndStaff rics : List){
         			%>
         			<tr>
-        				<td><%=rics.getRental().getRentalId() %></td>
-        				<td><%=rics.getRental().getRentalDate() %></td>
-        				<td><%=rics.getRental().getInventoryId() %></td>
-        				<td><%=rics.getRental().getCustomerId() %></td>
-        				<td><%=rics.getRental().getReturnDate() %></td>
-        				<td><%=rics.getRental().getStaffId()%></td>
-        				<td><%=rics.getRental().getLastUpdate() %></td>
+        				<td data-column="RentalId"><%=rics.getRental().getRentalId() %></td>
+        				<td data-column="RentalDate"><%=rics.getRental().getRentalDate() %></td>
+        				<td data-column="InventoryId"><%=rics.getRental().getInventoryId() %></td>
+        				<td data-column="CustomerId"><%=rics.getRental().getCustomerId() %></td>
+        				<td data-column="ReturnDate"><%=rics.getRental().getReturnDate() %></td>
+        				<td data-column="StaffId"><%=rics.getRental().getStaffId()%></td>
+        				<td data-column="LastUpdate"><%=rics.getRental().getLastUpdate() %></td>
 
         			</tr>
         			<%
@@ -77,10 +64,7 @@
         			%>
         		</tbody>
         	</table>
-        <div>
-            <a href="<%=request.getContextPath()%>/rental/insertRentalForm.jsp">RENTAL 입력</a>
-        </div>
-    </div>
+        
 </body>
 </html>
 
