@@ -7,6 +7,13 @@ import java.util.*;
 
 
 public class AddressDao {
+	public void deleteAddress(int addressId) throws Exception {
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		PreparedStatement stmt = conn.prepareStatement("delete FROM address where address_id=?");
+		stmt.setInt(1, addressId);
+		stmt.executeUpdate();
+	}
 	public void updateAddress(Address address) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();

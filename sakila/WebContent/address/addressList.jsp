@@ -56,6 +56,7 @@
                <th>Address2</th>
                <th>PostalCode</th>
                <th>수정</th>
+               <th>삭제</th>
             </tr>
             
          </thead>
@@ -74,6 +75,10 @@
                   <td data-column="수정">
                   	<a href = "<%=request.getContextPath()%>/address/updateAddressForm.jsp?addressId=<%=ad.getAddress().getAddressId()%>">수정</a>
                   </td>
+                  <td data-column="삭제">
+                  	<a href = "<%=request.getContextPath()%>/address/deleteAddressAction.jsp?addressId=<%=ad.getAddress().getAddressId()%>">삭제</a>
+                  </td>
+                  
                </tr>
                <%   
                }
