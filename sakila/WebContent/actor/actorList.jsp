@@ -10,18 +10,16 @@
 <head>
 <title>ActorList</title>
 <meta charset="utf-8">
-<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
-<link href="/sakila/css/button.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath() %>/css/listForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath() %>/css/button.css" rel="stylesheet" media="all">
 </head>
 <body>
 	
-		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
-	 
-	
+		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>	
 		<form class = "search-area" id = "userOption" method = "post" action = "<%=request.getContextPath() %>/actor/actorList.jsp">
 		<input type="text" name="searchWord" placeholder="Search Item" title="Search Item">
     	 <button type = "submit"  id = "userOptionBtn" class = "button-3d" name="submit" title="Search">Search</button>
-</form>
+		</form>
 		<!-- 페이징 관련 비지니스 로직 -->
 		<%
 		String searchWord = "";
@@ -38,17 +36,14 @@
 		%>
 		<!-- 컨트롤 로직이 필요함 (메서드 호출 결과값 (model) 가지고 와야함 -->
 		<%
-			ActorDao actorDao = new ActorDao();
+		ActorDao actorDao = new ActorDao();
 		ArrayList<Actor> list = actorDao.selectActorByPage(searchWord, beginRow, rowPerPage);
 		%>
 		<!-- 뷰 로직  -->
 	
-		<h1>Actor List</h1><a href="<%=request.getContextPath()%>/actor/insertActorForm.jsp" class="button-4d">추가</a>
-		
-   <!--  
-   <div class="menu-btn">000000 <i class="fas fa-bars"></i> </div>
-    -->
-	
+		<h1>Actor List</h1>
+		<a href="<%=request.getContextPath()%>/actor/insertActorForm.jsp" class="button-4d">추가</a>
+
 		<table>
 			<thead>				
 				<tr>
@@ -79,6 +74,7 @@
 				</tr>
 				<%
 					}
+				
 				%>
 			</tbody>
 		</table>
@@ -86,7 +82,7 @@
 	<%
 		if (currentPage > 1) {
 	%>
-	<a href="<%=request.getContextPath()%>/actor/actorList.jsp?currentPage=<%=currentPage - 1%>"  class="button-4d">이전페이지</a>
+	<a href="<%=request.getContextPath()%>/actor/actorList.jsp?currentPage=<%=currentPage - 1%>"  class="button-5d">이전페이지</a>
 	<%
 		}
 	%>
@@ -100,7 +96,7 @@
 	<%
 		if (currentPage < lastPage) {
 	%>
-	<a href="<%=request.getContextPath()%>/actor/actorList.jsp?currentPage=<%=currentPage + 1%>"  class="button-4d">다음페이지</a>
+	<a href="<%=request.getContextPath()%>/actor/actorList.jsp?currentPage=<%=currentPage + 1%>"  class="button-5d">다음페이지</a>
 	<%
 		}
 	%>

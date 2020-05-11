@@ -1,17 +1,17 @@
-<%@page import="dao.ActorDao"%>
-<%@page import="vo.Actor"%>
+<%@page import="dao.*"%>
+<%@page import="vo.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%
-	int actorId = Integer.parseInt(request.getParameter("actorId"));
-	System.out.println(actorId +"/actorId/deleteActor");
+	int cityId = Integer.parseInt(request.getParameter("cityId"));
+	System.out.println(cityId +"/cityId/deleteActor");
 	
 
 	
-	ActorDao actorDao = new ActorDao();
-	actorDao.deleteActor(actorId);
+	CityDao cityDao = new CityDao();
+	cityDao.deleteCity(cityId);
 	
-	response.sendRedirect(request.getContextPath() + "/actor/actorList.jsp");
+	response.sendRedirect(request.getContextPath() + "/city/cityList.jsp");
 	
 %>

@@ -45,15 +45,17 @@ public class StoreDao {
 		return list;
 	}
 	
-	public ArrayList<Integer> selectStoreIdList() throws Exception {
+	public ArrayList<Store> selectStoreIdList() throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		String sql = "SELECT store_id FROM store ORDER BY store_id";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Store> list = new ArrayList<Store>();
 		while(rs.next()) {
-			list.add(rs.getInt("store_id"));
+			Store s = new Store();
+			s.setStoreId(rs.getInt("so.store_id"));
+			list.add(s);
 		}
 		return list;
 	}

@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
 <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-<link href="/blog/css/registerForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath()%>/css/registerForm.css" rel="stylesheet" media="all">
 </head>
 <body>
 	<div>	
@@ -27,7 +27,7 @@
 					<h2 class="title">Insert Category</h2>
 				</div>
 				<div class="card-body">
-					<form method = "post" 	action="<%=request.getContextPath()%>/category/categoryInsertAction.jsp">				
+					<form method = "post" 	action="<%=request.getContextPath()%>/category/insertCategoryAction.jsp">				
 						
 					
 						

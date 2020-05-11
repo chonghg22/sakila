@@ -22,10 +22,12 @@
 <body>
 
 		<%
-			CityDao cityDao = new CityDao();
-			ArrayList<City> cityIdList = cityDao.selectCityIdList();
-			int addressId = Integer.parseInt(request.getParameter("addressId"));
-			System.out.println(addressId + "/addressId/updateaddressForm");
+			StoreDao storeDao = new StoreDao();
+			ArrayList<Store> list = storeDao.selectStoreIdList();
+			AddressDao addressDao = new AddressDao();
+			ArrayList<Address> AddressList = addressDao.SelectAddressOne();
+			int customerId = Integer.parseInt(request.getParameter("customerId"));
+			System.out.println(customerId + "/customerId/updatecustomerForm");
 		%>
 
 <div>	
@@ -35,66 +37,31 @@
 		<div class="wrapper wrapper--w790">
 			<div class="card card-5">
 				<div class="card-heading">
-					<h2 class="title">Update Address</h2>
+					<h2 class="title">Update Customer</h2>
 				</div>
 				<div class="card-body">
-					<form method = "post" action="<%=request.getContextPath()%>/address/updateAddressAction.jsp">
-						<div class="form-row">
-							<div class="name">
-							AddressId:
-							</div>
+					<form method = "post" action="<%=request.getContextPath()%>/customer/updateCustomerAction.jsp">
+						<div class="form-row">							
 							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type="text" name="addressId" value ="<%=addressId %>" readonly>
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-row">
-							<div class="name">
-							Address:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="address">
+									<input class="input--style-5" type="hidden" name="customerId" value ="<%=customerId %>" readonly>
 								</div>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="name">
-							Address2:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="address2">
-								</div>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="name">
-							District:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="district">
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-row">
-							<div class="name">
-							CityId:
+							StoreId:
 							</div>
 							<div class="value">
 								<div class="input-group">
 									<div class="row row-space">
 										<div class="input-group-desc">
-											<select name = "cityId" class="input--style-5">		
+											<select name = "storeId" class="input--style-5">		
 												<option disabled="disabled" selected="selected">선택하세요.</option>
 												<%
-													for (City c : cityIdList) {
+													for (Store c : list) {
 												%>
-													<option value="<%=c.getCityId()%>"><%=c.getCity()%></option>
+													<option value="<%=c.getStoreId()%>"><%=c.getStoreId()%></option>
 												<%
 													}
 												%>
@@ -104,28 +71,76 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="form-row">
 							<div class="name">
-							PostalCode:
+							FirstName:
 							</div>
 							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type="text" name="postalcode">
+									<input class="input--style-5" type="text" name="firstName">
 								</div>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="name">
-							Phone:
+							LastName:
 							</div>
-								<div class="value">
+							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type="text" name="phone">
+									<input class="input--style-5" type="text" name="lastName">
 								</div>
 							</div>
 						</div>
+						<div class="form-row">
+							<div class="name">
+							Email:
+							</div>
+							<div class="value">
+								<div class="input-group">
+									<input class="input--style-5" type="text" name="email">
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="name">
+							AddressId:
+							</div>
+							<div class="value">
+								<div class="input-group">
+									<div class="row row-space">
+										<div class="input-group-desc">
+											<select name = "addressId" class="input--style-5">		
+												<option disabled="disabled" selected="selected">선택하세요.</option>
+												<%
+													for (Address a : AddressList) {
+												%>
+													<option value="<%=a.getAddressId()%>"><%=a.getAddress()%></option>
+												<%
+													}
+												%>
+											</select>
+										</div>	
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-row p-t-20">
+						<label class="label label--block">Active</label>
+							<div class="p-t-15">
+								<label class="radio-container m-r-55">0
+									<input type="radio" checked="checked" name="active">
+									<span class="checkmark"></span>
+								</label>
+								<label class="radio-container">1
+									<input type="radio" name="active">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>						
 						<div>
-							<button class="btn btn--radius-2 btn--blue" type="submit">추가</button>
+							<button class="btn btn--radius-2 btn--blue" type="submit">수정</button>
 						</div>
 					</form>
 				</div>
@@ -147,18 +162,3 @@
 	<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="4a061543b3ab991da7fc1126-|49" defer=""></script>
 </body>
 </html>
-<!--  
-<div class="form-row p-t-20">
-<label class="label label--block">Are you an existing customer?</label>
-<div class="p-t-15">
-<label class="radio-container m-r-55">Yes
-<input type="radio" checked="checked" name="exist">
-<span class="checkmark"></span>
-</label>
-<label class="radio-container">No
-<input type="radio" name="exist">
-<span class="checkmark"></span>
-</label>
-</div>
-</div>
--->

@@ -1,17 +1,16 @@
-<%@page import="dao.ActorDao"%>
-<%@page import="vo.Actor"%>
+<%@page import="dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%
-	int actorId = Integer.parseInt(request.getParameter("actorId"));
-	System.out.println(actorId +"/actorId/deleteActor");
+	int countryId = Integer.parseInt(request.getParameter("countryId"));
+	System.out.println(countryId +"/countryId/deleteCountry");
 	
 
 	
-	ActorDao actorDao = new ActorDao();
-	actorDao.deleteActor(actorId);
+	CountryDao countryDao = new CountryDao();
+	countryDao.deleteCountry(countryId);
 	
-	response.sendRedirect(request.getContextPath() + "/actor/actorList.jsp");
+	response.sendRedirect(request.getContextPath() + "/country/countryList.jsp");
 	
 %>

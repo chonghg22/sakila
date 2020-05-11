@@ -118,7 +118,7 @@
 						</div>
 						<input type="hidden" name="active" value=1>
 						<div>
-							<button class="btn btn--radius-2 btn--blue" type="submit">수정</button>
+							<button class="btn btn--radius-2 btn--blue" type="submit">추가</button>
 						</div>
 					</form>
 				</div>

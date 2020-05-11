@@ -1,17 +1,17 @@
-<%@page import="dao.Category"%>
+<%@page import="dao.CategoryDao"%>
 <%@page import="vo.Category"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%
-	int actorId = Integer.parseInt(request.getParameter("actorId"));
-	System.out.println(actorId +"/actorId/deleteActor");
+	int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+	System.out.println(categoryId +"/category/deleteActor");
 	
 
 	
-	CategoryDao actorDao = new CategoryDao();
-	categoryDao.deleteActor(actorId);
+	CategoryDao categoryDao = new CategoryDao();
+	categoryDao.deleteCategory(categoryId);
 	
-	response.sendRedirect(request.getContextPath() + "/actor/actorList.jsp");
+	response.sendRedirect(request.getContextPath() + "/category/categoryList.jsp");
 	
 %>

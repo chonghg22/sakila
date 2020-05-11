@@ -1,3 +1,6 @@
+<%@page import="vo.Country"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.CountryDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,17 +17,17 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
 <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-<link href="/blog/css/registerForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath()%>/css/registerForm.css" rel="stylesheet" media="all">
 </head>
 <body>
 	<div>	
 		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
 	</div> 
 	<%
-			int countryId = Integer.parseInt(request.getParameter("countryId"));
-		System.out.println(countryId + "<--insertCityForm/countryId");
-		String city = request.getParameter("city");
-		%>
+		CountryDao countryDao = new CountryDao();
+		countryDao.selectCountryListOne();
+		ArrayList<Country> list = countryDao.selectCountryListOne();
+	%>
 	<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
 		<div class="wrapper wrapper--w790">
 			<div class="card card-5">
@@ -32,9 +35,7 @@
 					<h2 class="title">Insert City</h2>
 				</div>
 				<div class="card-body">
-					<form method="post"	action="<%=request.getContextPath()%>/city/insertCityAction.jsp">		
-						
-					
+					<form method="post"	action="<%=request.getContextPath()%>/city/insertCityAction.jsp">					
 						
 						<div class="form-row">
 							<div class="name">
@@ -45,18 +46,31 @@
 									<input class="input--style-5" type="text" name="city" >
 								</div>
 							</div>
-						</div>		
-									
+						</div>	
+					
 						<div class="form-row">
 							<div class="name">
 							CountryId:
 							</div>
 							<div class="value">
 								<div class="input-group">
-									<input class="input--style-5" type = "text" name="countryId" value=<%=countryId%> readonly="readonly">
+									<div class="row row-space">
+										<div class="input-group-desc">
+											<select name = "countryId" class="input--style-5">		
+												<option disabled="disabled" selected="selected">선택하세요.</option>
+												<%
+													for(Country c : list) {	
+												%>
+													<option value="<%=c.getCountryId()%>"><%=c.getCountry()%></option>
+												<%
+													}
+												%>
+											</select>
+										</div>	
+									</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 						<div>
 							<button class="btn btn--radius-2 btn--blue" type="submit">확인</button>
 						</div>

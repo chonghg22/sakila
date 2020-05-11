@@ -3,37 +3,29 @@
 .button-3d {
   position:relative;
   width: auto;
+  height: auto;
   display:inline-block;
   color:#ecf0f1;
   text-decoration:none;
   border-radius:5px;
-  border:solid 1px #f39c12;
-  background:#e67e22;
+  border:solid 1px #8080c0;
+  background:#8080c0;
   text-align:center;
-  padding:16px 18px 14px;
-  margin: 12px;
-  
-  -webkit-transition: all 0.1s;
-	-moz-transition: all 0.1s;
-	transition: all 0.1s;
-	
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 6px 0px #d35400;
+  padding:10px 10px 10px;
 }
 
 .button-3d:active{
-    -webkit-box-shadow: 0px 2px 0px #d35400;
-    -moz-box-shadow: 0px 2px 0px #d35400;
-    box-shadow: 0px 2px 0px #d35400;
+    -webkit-box-shadow: 0px 2px 0px #8080c0;
+    -moz-box-shadow: 0px 2px 0px #8080c0;
+    box-shadow: 0px 2px 0px #8080c0;
     position:relative;
     top:4px;
 }
 
 .button-4d {
   position:relative;
-  width: 70px;
-  height: 20px;
+  width: 35px;
+  height: 8px;
   display:inline-block;
   color:#ecf0f1;
   text-decoration:none;
@@ -41,23 +33,42 @@
   border:solid 1px #f39c12;
   background:#e67e22;
   text-align:center;
-  padding:16px 18px 14px;
-  margin: 12px;
-
+  padding:0.1px 10px 10px;
   
-  -webkit-transition: all 0.1s;
-	-moz-transition: all 0.1s;
-	transition: all 0.1s;
-	
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 6px 0px #d35400;
+
+
 }
 
 .button-4d:active{
     -webkit-box-shadow: 0px 2px 0px #d35400;
     -moz-box-shadow: 0px 2px 0px #d35400;
     box-shadow: 0px 2px 0px #d35400;
+    position:relative;
+    top:4px;
+}
+.button-5d {
+  position:relative;
+  width: 80px;
+  height: 8px;
+  display:inline-block;
+  color:#ecf0f1;
+  text-decoration:none;
+  border-radius:5px;
+  border:solid 1px #c0c0c0;
+  background:#808080;
+  text-align:center;
+  padding:2px 18px 14px;
+  margin: 12px;
+
+  
+
+
+}
+
+.button-5d:active{
+    -webkit-box-shadow: 0px 2px 0px #808080;
+    -moz-box-shadow: 0px 2px 0px #808080;
+    box-shadow: 0px 2px 0px #808080;
     position:relative;
     top:4px;
 }

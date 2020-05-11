@@ -1,22 +1,34 @@
 package dao;
 import java.util.*;
+
+import util.DBUtil;
+
 import java.sql.*;
 import vo.*;
 import java.sql.*;
 
 public class CategoryDao {
 	
+	
+	public int selectTotalCount() throws Exception{
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM category");
+		ResultSet rs = stmt.executeQuery();
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt("count(*)");
+		}
+		return totalCount;
+	}
+	
 	public void updateCategory(Category category) throws Exception {
 		System.out.println(category.getCategoryId() +"</1/categoryDao");
 		System.out.println(category.getName() +"</2/categoryDao");
 		//System.out.println(category.lastUpdate +"</3/categoryDao");
-		String sql = "update category set name=?,last_update=now() where category_id=?";
-		String driver = "org.mariadb.jdbc.Driver";
-		String dbaddr = "jdbc:mariadb://localhost:3306/sakila";
-		String dbid = "root";
-		String dbpw = "java1234";
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "update category set name=? where category_id=?";		
 		//System.out.println(conn + "conn.updateDao");
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, category.getName());
@@ -90,10 +102,13 @@ public class CategoryDao {
 		
 	
 	// select* from category
-	public ArrayList<Category> selectCategoryAll() throws Exception{
+	public ArrayList<Category> selectCategoryAll(String searchWord, int beginRow, int rowPerPage) throws Exception{
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila","root","java1234");
-		PreparedStatement stmt = conn.prepareStatement("select category_id,name,last_update from category ");
+		PreparedStatement stmt = conn.prepareStatement("select category_id,name,last_update from category WHERE name like ? ORDER BY category_id LIMIT ?,?");
+		stmt.setString(1, "%"+searchWord+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		ArrayList<Category> list = new ArrayList<Category>();

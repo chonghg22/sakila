@@ -9,14 +9,18 @@
 <head>
 <title>AddressList</title>
 <meta charset="utf-8">
-<link href="/sakila/css/listForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath() %>/css/listForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath() %>/css/button.css" rel="stylesheet" media="all">
 </head>
 <body>
 	<div>	
 		<jsp:include page="/inc/sidemenu.jsp"></jsp:include>
+		<form class = "search-area" id = "userOption" method = "post" action = "<%=request.getContextPath() %>/address/addressList.jsp">
+		<input type="text" name="searchWord" placeholder="Search Item" title="Search Address">
+    	 <button type = "submit"  id = "userOptionBtn" class = "button-3d" name="submit" title="Search">Search</button>
+		</form>
 	</div> 
 
-<!-- 페이징 관련 비지니스 로직 -->
 <%
 	
 	//
@@ -39,11 +43,8 @@
 
 
       <h1>Address List</h1>
-      <a href="<%=request.getContextPath()%>/address/insertAddressForm.jsp">추가</a>
-      <form method = "post" action = "<%=request.getContextPath() %>/address/addressList.jsp">       
-       <input type="text" name = "searchWord">
-       <button type = "submit" name = "submit">찾기</button>
-       </form>
+      <a href="<%=request.getContextPath()%>/address/insertAddressForm.jsp"  class="button-4d">추가</a>
+ 
        
        <table>
          <thead>
@@ -97,14 +98,14 @@
             <%
             if (currentPage > 1){
             %>
-            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage - 1%>">이전페이지</a>
+            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage - 1%>" class="button-5d">이전페이지</a>
             <%
             }
             %>
             <%
             if (currentPage <lastPage){
             %>
-            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage + 1%>">다음페이지</a>
+            <a href = "<%=request.getContextPath()%>/address/addressList.jsp?currentPage=<%=currentPage + 1%>" class="button-5d">다음페이지</a>
             <%
             }
             %>

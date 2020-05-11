@@ -4,11 +4,34 @@ import java.util.*;
 import util.*;
 import vo.*;
 public class CustomerDao {
-	public ArrayList<CustomerAndStoreAndAddress> selectCustomerListAll() throws Exception {
+	public int selectTotalCount() throws Exception {
+		//SELECT COUNT(*) FROM actor 필요
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM customer");
+		ResultSet rs = stmt.executeQuery();
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt("count(*)");
+		}
+		return totalCount;
+	}
+	public void deleteCustomer(int customerId) throws Exception {
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		PreparedStatement stmt = conn.prepareStatement("delete FROM customer where customer_id=?");
+		stmt.setInt(1, customerId);
+		stmt.executeUpdate();
+	}
+	public ArrayList<CustomerAndStoreAndAddress> selectCustomerListAll(String searchWord, int beginRow, int rowPerPage) throws Exception {
 		DBUtil dbUtil = new DBUtil();
-		String sql = "SELECT cu.*, ad.*, so.* FROM customer cu INNER JOIN address ad INNER JOIN store so ON cu.address_id = ad.address_id AND cu.store_id = so.store_id ORDER BY customer_id ASC";
+		String sql = "SELECT cu.*, ad.*, so.* FROM customer cu INNER JOIN address ad INNER JOIN store so ON cu.address_id = ad.address_id AND cu.store_id = so.store_id "
+				+ "WHERE cu.first_name  like ? ORDER BY cu.customer_id limit ?,?";
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+searchWord+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<CustomerAndStoreAndAddress> list = new ArrayList<CustomerAndStoreAndAddress>();
 		while(rs.next()) {

@@ -66,7 +66,7 @@
 							</div>
 						</div>	
 						<div>
-							<button class="btn btn--radius-2 btn--blue" type="submit">확인</button>
+							<button class="btn btn--radius-2 btn--blue" type="submit">변경</button>
 						</div>
 					</form>
 				</div>

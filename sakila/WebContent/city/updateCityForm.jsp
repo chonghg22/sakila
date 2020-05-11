@@ -17,15 +17,16 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
 <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-<link href="/sakila/css/registerForm.css" rel="stylesheet" media="all">
+<link href="<%=request.getContextPath()%>/css/registerForm.css" rel="stylesheet" media="all">
 </head>
 <body>
 
-		<%
-			CityDao cityDao = new CityDao();
-			ArrayList<City> cityIdList = cityDao.selectCityIdList();
-			int addressId = Integer.parseInt(request.getParameter("addressId"));
-			System.out.println(addressId + "/addressId/updateaddressForm");
+		<%			
+			int cityId = Integer.parseInt(request.getParameter("cityId"));
+			System.out.println(cityId + "/cityId/updatCityForm");
+			
+			CountryDao countryDao = new CountryDao();
+			ArrayList<Country> list = countryDao.selectCountryListOne();
 		%>
 
 <div>	
@@ -35,66 +36,45 @@
 		<div class="wrapper wrapper--w790">
 			<div class="card card-5">
 				<div class="card-heading">
-					<h2 class="title">Update Address</h2>
+					<h2 class="title">Update City</h2>
 				</div>
 				<div class="card-body">
-					<form method = "post" action="<%=request.getContextPath()%>/address/updateAddressAction.jsp">
-						<div class="form-row">
-							<div class="name">
-							AddressId:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="addressId" value ="<%=addressId %>" readonly>
-								</div>
-							</div>
-						</div>
-						
-						<div class="form-row">
-							<div class="name">
-							Address:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="address">
-								</div>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="name">
-							Address2:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="address2">
-								</div>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="name">
-							District:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="district">
-								</div>
-							</div>
-						</div>
-						
+					<form method = "post" action="<%=request.getContextPath()%>/city/updateCityAction.jsp">
 						<div class="form-row">
 							<div class="name">
 							CityId:
 							</div>
 							<div class="value">
 								<div class="input-group">
+									<input class="input--style-5" type="text" name="cityId" value ="<%=cityId %>" readonly>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-row">
+							<div class="name">
+							city:
+							</div>
+							<div class="value">
+								<div class="input-group">
+									<input class="input--style-5" type="text" name="city">
+								</div>
+							</div>
+						</div>						
+						<div class="form-row">
+							<div class="name">
+							CountryId:
+							</div>
+							<div class="value">
+								<div class="input-group">
 									<div class="row row-space">
 										<div class="input-group-desc">
-											<select name = "cityId" class="input--style-5">		
+											<select name = "countryId" class="input--style-5">		
 												<option disabled="disabled" selected="selected">선택하세요.</option>
 												<%
-													for (City c : cityIdList) {
+													for (Country c : list) {
 												%>
-													<option value="<%=c.getCityId()%>"><%=c.getCity()%></option>
+													<option value="<%=c.getCountryId()%>"><%=c.getCountry()%></option>
 												<%
 													}
 												%>
@@ -104,28 +84,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="name">
-							PostalCode:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="postalcode">
-								</div>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="name">
-							Phone:
-							</div>
-								<div class="value">
-								<div class="input-group">
-									<input class="input--style-5" type="text" name="phone">
-								</div>
-							</div>
-						</div>
+						
 						<div>
-							<button class="btn btn--radius-2 btn--blue" type="submit">추가</button>
+							<button class="btn btn--radius-2 btn--blue" type="submit">변경</button>
 						</div>
 					</form>
 				</div>
@@ -147,18 +108,4 @@
 	<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="4a061543b3ab991da7fc1126-|49" defer=""></script>
 </body>
 </html>
-<!--  
-<div class="form-row p-t-20">
-<label class="label label--block">Are you an existing customer?</label>
-<div class="p-t-15">
-<label class="radio-container m-r-55">Yes
-<input type="radio" checked="checked" name="exist">
-<span class="checkmark"></span>
-</label>
-<label class="radio-container">No
-<input type="radio" name="exist">
-<span class="checkmark"></span>
-</label>
-</div>
-</div>
--->
+

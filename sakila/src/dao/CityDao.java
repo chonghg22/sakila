@@ -6,6 +6,38 @@ import java.util.*;
 import util.DBUtil;
 
 public class CityDao {
+	public void updateCity(City city) throws Exception{
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "UPDATE city SET city=?, country_id=? WHERE city_id=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, city.getCity());
+		stmt.setInt(2, city.getCountryId());
+		stmt.setInt(3, city.getCityId());
+		stmt.executeUpdate();
+	}
+	
+	public void deleteCity(int cityId) throws Exception{
+		 DBUtil dbUtil = new DBUtil();
+	      Connection conn = dbUtil.getConnection();
+	      String sql ="delete FROM city where city_id=?";
+	      PreparedStatement stmt = conn.prepareStatement(sql);
+		  stmt.setInt(1, cityId);
+		  stmt.executeUpdate();
+	}
+	
+	public int selectTotalCount() throws Exception {
+		//SELECT COUNT(*) FROM actor 필요
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM city");
+		ResultSet rs = stmt.executeQuery();
+		int totalCount = 0;
+		if(rs.next()) {
+			totalCount = rs.getInt("count(*)");
+		}
+		return totalCount;
+	}
    public ArrayList<City> selectCityIdList()throws Exception{
       DBUtil dbUtil = new DBUtil();
       Connection conn = dbUtil.getConnection();
@@ -27,30 +59,8 @@ public class CityDao {
       return list;
    }
    
-   public ArrayList<City> selectCityIdListAll(int beginRow, int rowPerPage, String searchWord){
-      return null;
-   }
+   
 
-   /*public void insertCity(City city) throws Exception{
-      String sql = "insert into city(city_id, city,last_update) values (?,?,now())";
-      String driver = "org.mariadb.jdbc.Driver";
-      String dbaddr = "jdbc:mariadb://localhost:3306/sakila";
-      String dbid = "root";
-      String dbpw = "java1234";
-      Class.forName(driver);
-      System.out.println(driver + "<--driver/CityDao");
-      
-      Connection conn = DriverManager.getConnection(dbaddr, dbid, dbpw);
-      System.out.println(conn + "<--conn/CityDao");
-      
-      PreparedStatement stmt = conn.prepareStatement(sql);
-      stmt.setInt(1, city.getCityId());
-      stmt.setString(2,city.getCity());
-      System.out.println(stmt + "<--stmt/CityDao");
-      
-      stmt.executeQuery();
-      }
-      */
       
    public void insertCityAndSelectKey(CityAndCountry cityAndCountry)throws Exception{
       DBUtil dbUtil = new DBUtil();
@@ -72,11 +82,11 @@ public class CityDao {
    
    //insert into city inner join country where
    //City�뀒�씠釉붽낵 Country�뀒�씠釉붿쓣 JOIN�븳 �뜲�씠�꽣瑜� �굹�뿴
-   public ArrayList<CityAndCountry>selectCityList() throws Exception {
+   public ArrayList<CityAndCountry>selectCityList(String searchWord, int beginRow, int rowPerPage) throws Exception {
       
       //�꽌踰꾩젒�냽
       String sql = null;
-      sql = "select ci.*,co.* from city ci inner join country co on ci.country_id = co.country_id order by ci.city_id";
+      sql = "select ci.*,co.* from city ci inner join country co on ci.country_id = co.country_id WHERE ci.city like? order by ci.city_id limit ?,?";
       String driver = "org.mariadb.jdbc.Driver";
       String dbaddr = "jdbc:mariadb://localhost:3306/sakila";
       String dbid = "root";
@@ -90,6 +100,9 @@ public class CityDao {
       
       PreparedStatement stmt = conn.prepareStatement(sql);
       System.out.println(stmt + "<--stmt/CityDao");
+      stmt.setString(1, "%"+searchWord+"%");
+      stmt.setInt(2, beginRow);
+      stmt.setInt(3, rowPerPage);
       
       ResultSet rs = stmt.executeQuery();
       System.out.println(rs + "<--rs/CityDao");
