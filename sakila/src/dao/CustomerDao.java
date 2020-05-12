@@ -4,6 +4,10 @@ import java.util.*;
 import util.*;
 import vo.*;
 public class CustomerDao {
+	
+	public void updateCustomer(Customer customer) throws Exception{
+		
+	}
 	public int selectTotalCount() throws Exception {
 		//SELECT COUNT(*) FROM actor 필요
 		Class.forName("org.mariadb.jdbc.Driver");

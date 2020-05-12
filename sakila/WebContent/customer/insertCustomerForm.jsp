@@ -25,7 +25,7 @@
 		CityDao cityDao = new CityDao();
 		ArrayList<City> cityList = cityDao.selectCityIdList();
 		StoreDao storeDao = new StoreDao();
-		ArrayList<Integer> storeId = storeDao.selectStoreIdList();
+		ArrayList<Store> storeId = storeDao.selectStoreIdList();
 		AddressDao addressDao = new AddressDao();
 		ArrayList<Address> list = addressDao.SelectAddressOne();
 	%>
@@ -40,29 +40,7 @@
 				</div>
 				<div class="card-body">
 					<form method = "post" action="<%= request.getContextPath() %>/customer/insertCustomerFormAction.jsp">				
-						<div class="form-row">
-							<div class="name">
-							AddressId:
-							</div>
-							<div class="value">
-								<div class="input-group">
-									<div class="row row-space">
-										<div class="input-group-desc">
-											<select name = "addressId" class="input--style-5">		
-												<option disabled="disabled" selected="selected">선택하세요.</option>
-												<%
-													for(Address a : list) {
-												%>
-													<option value="<%= a.getAddressId() %>"><%= a.getAddress() %></option>
-												<%
-													}
-												%>
-											</select>
-										</div>	
-									</div>
-								</div>
-							</div>
-						</div>							
+												
 						<div class="form-row">
 							<div class="name">
 							StoreId:
@@ -74,7 +52,7 @@
 											<select name = "storeId" class="input--style-5">		
 												<option disabled="disabled" selected="selected">선택하세요.</option>
 												<%
-													for(Integer s : storeId) {
+													for(Store s : storeId) {
 												%>
 													<option value="<%= s %>"><%= s %></option>
 												<%
@@ -116,6 +94,29 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-row">
+							<div class="name">
+							AddressId:
+							</div>
+							<div class="value">
+								<div class="input-group">
+									<div class="row row-space">
+										<div class="input-group-desc">
+											<select name = "addressId" class="input--style-5">		
+												<option disabled="disabled" selected="selected">선택하세요.</option>
+												<%
+													for(Address a : list) {
+												%>
+													<option value="<%= a.getAddressId() %>"><%= a.getAddress() %></option>
+												<%
+													}
+												%>
+											</select>
+										</div>	
+									</div>
+								</div>
+							</div>
+						</div>	
 						<input type="hidden" name="active" value=1>
 						<div>
 							<button class="btn btn--radius-2 btn--blue" type="submit">추가</button>
