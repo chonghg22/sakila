@@ -5,7 +5,7 @@ import java.sql.*;
 public class DBUtil {
 	public Connection getConnection() throws Exception{
 		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/goodee", "root", "java1234");
 		return conn;
 	}
 }

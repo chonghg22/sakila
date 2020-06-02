@@ -8,7 +8,7 @@ public class FilmDao {
 	public ArrayList<Film> selectfilm() throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT * FROM film";
+		String sql = "SELECT * FROM sakila_film";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<Film> list = new ArrayList<Film>();
@@ -35,7 +35,7 @@ public class FilmDao {
 	public void insertFilm(Film film) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "INSERT INTO film(title, description, rental_duration, rental_rate, length, replacement_cost, rating, special_features, last_update,language_id)"
+		String sql = "INSERT INTO sakila_film(title, description, rental_duration, rental_rate, length, replacement_cost, rating, special_features, last_update,language_id)"
 				+ "VALUES(?,?,?,?,?,?,?,?,now(),?) ";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, film.getTitle());

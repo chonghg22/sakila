@@ -7,24 +7,24 @@ public class CountryDao {
 	public void updateCountry(Country country) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "UPDATE country SET country=? WHERE country_id=?";
+		String sql = "UPDATE sakila_country SET country=? WHERE country_id=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, country.getCountry());
 		stmt.setInt(2, country.getCountryId());		
 		stmt.executeUpdate();
 	}
 	public void deleteCountry(int countryId) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("delete FROM country where country_id=?");
+		DBUtil dbutil = new DBUtil();
+	    Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM sakila_country WHERE country_id=?");
 		stmt.setInt(1, countryId);
 		stmt.executeUpdate();
 	}
 	public int selectTotalCount() throws Exception {
 		//SELECT COUNT(*) FROM actor 필요
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM country");
+		DBUtil dbutil = new DBUtil();
+	    Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM sakila_country");
 		ResultSet rs = stmt.executeQuery();
 		int totalCount = 0;
 		if(rs.next()) {
@@ -35,7 +35,7 @@ public class CountryDao {
    public void insertCountry(Country country) throws Exception{
       DBUtil dbUtil = new DBUtil();
       Connection conn = dbUtil.getConnection();
-      String sql = "insert into country( country, last_update) values (?, now())";
+      String sql = "INSERT INTO sakila_country( country, last_update) VALUES (?, now())";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1,  country.getCountry());
       stmt.executeQuery();
@@ -46,7 +46,7 @@ public class CountryDao {
       System.out.println(searchWord + "<--searchWord/Dao");
       DBUtil dbUtil = new DBUtil();
       Connection conn = dbUtil.getConnection();
-      String sql = "select * from country where country like ? ORDER BY country_id limit ?,?";      
+      String sql = "SELECT * FROM sakila_country WHERE country LIKE ? ORDER BY country_id LIMIT ?,?";      
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, "%"+searchWord+"%");
       stmt.setInt(2, beginRow);
@@ -67,7 +67,7 @@ public class CountryDao {
 
 	      DBUtil dbUtil = new DBUtil();
 	      Connection conn = dbUtil.getConnection();
-	      String sql = "select * from country  ";      
+	      String sql = "SELECT * FROM sakila_country";      
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      ResultSet rs = stmt.executeQuery();
 	      ArrayList<Country> list = new ArrayList<Country>();

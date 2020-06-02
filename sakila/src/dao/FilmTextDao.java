@@ -9,7 +9,7 @@ public class FilmTextDao {
 	public ArrayList<FilmText> selectfilmText() throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT * FROM film_text";
+		String sql = "SELECT * FROM sakila_film_text";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<FilmText> list = new ArrayList<FilmText>();

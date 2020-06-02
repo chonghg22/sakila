@@ -8,13 +8,13 @@ import vo.*;
 
 public class PaymentDao {
 
-	// currentPage -1¶Ç´Â ÃÖ´ëÇàº¸´Ù ³Ñ¾î°¡Áö¾Ê°Ô lastPage¸¦ ¸¸µç ¸Þ¼Òµå
+	// currentPage -1ï¿½Ç´ï¿½ ï¿½Ö´ï¿½ï¿½àº¸ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ï¿½Ê°ï¿½ lastPageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	public static int selectTotalCount() throws Exception {
 		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
-		String sql ="SELECT COUNT(*) cnt FROM payment";
+		String sql ="SELECT COUNT(*) cnt FROM sakila_payment";
 		
 		PreparedStatement stmt1 = conn.prepareStatement(sql);
 		System.out.println(stmt1 + " <-- stmt1");
@@ -40,7 +40,7 @@ public class PaymentDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 
-		String sql = "SELECT p.*, c.*, s.*, r.* FROM Payment p INNER JOIN Customer c INNER JOIN Staff s INNER JOIN Rental r "
+		String sql = "SELECT p.*, c.*, s.*, r.* FROM sakila_payment p INNER JOIN sakila_customer c INNER JOIN sakila_staff s INNER JOIN sakila_rental r "
 				+ "ON p.customer_id = c.customer_id AND p.staff_id = s.staff_id AND p.rental_id = r.rental_id WHERE p.payment_id like ? "
 				+ "ORDER BY p.payment_id LIMIT ?, ?";
 
@@ -105,9 +105,9 @@ public class PaymentDao {
 	
 	public void insertPaymentAction(Payment p) throws Exception {
 		DBUtil dbUtil = new DBUtil();
-		String sql =
-		"INSERT INTO payment(customer_id, staff_id, rental_id, amount, payment_date, last_update) VALUES (?, ?, ?, ?, now(), now())"; 
 		Connection conn = dbUtil.getConnection();
+		String sql =
+		"INSERT INTO sakila_payment(customer_id, staff_id, rental_id, amount, payment_date, last_update) VALUES (?, ?, ?, ?, now(), now())"; 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, p.getCustomerId());
 		stmt.setInt(2, p.getStaffId());

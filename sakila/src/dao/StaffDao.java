@@ -6,9 +6,9 @@ import util.*;
 import vo.*;
 public class StaffDao {
 	public void updateStaffActiveAndStoreId(int storeId, int staffId) throws Exception {
-		DBUtil dbUtil = new DBUtil();
-		String sql = "UPDATE staff SET active=2, store_id=? WHERE staff_id=?";
+		DBUtil dbUtil = new DBUtil();		
 		Connection conn = dbUtil.getConnection();
+		String sql = "UPDATE sakila_staff SET active=2, store_id=? WHERE staff_id=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, storeId);
 		stmt.setInt(2, staffId);
@@ -16,12 +16,12 @@ public class StaffDao {
 	}
 	
 	public ArrayList<StaffAndAddressAndStore> selectStaffListAll() throws Exception{
-		DBUtil dbUtil = new DBUtil();
-		String sql = "SELECT st.*, ad.*, so.* FROM staff st INNER JOIN address ad INNER JOIN store so ON st.address_id = ad.address_id AND st.store_id = so.store_id ORDER BY staff_id ASC";
+		DBUtil dbUtil = new DBUtil();		
 		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT st.*, ad.*, so.* FROM sakila_staff st INNER JOIN sakila_address ad INNER JOIN sakila_store so "
+				+ "ON st.address_id = ad.address_id AND st.store_id = so.store_id ORDER BY staff_id ASC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		ResultSet rs = stmt.executeQuery();
-		
+		ResultSet rs = stmt.executeQuery();		
 		ArrayList<StaffAndAddressAndStore> list = new ArrayList<StaffAndAddressAndStore>();
 		while(rs.next()) {
 			StaffAndAddressAndStore sAS = new StaffAndAddressAndStore();
@@ -51,9 +51,9 @@ public class StaffDao {
 	
 	
 	public void insertStaffFormAction(Staff staff) throws Exception {
-		DBUtil dbUtil = new DBUtil();
-		String sql = "INSERT INTO staff(first_name, last_name, address_id, email, store_id, active, username, password, last_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())";
+		DBUtil dbUtil = new DBUtil();	
 		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO sakila_staff(first_name, last_name, address_id, email, store_id, active, username, password, last_update) VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, staff.getFirstName());
 		stmt.setString(2, staff.getLastName());
@@ -67,9 +67,9 @@ public class StaffDao {
 	}
 	
 	public ArrayList<Staff> selectStaffIdList() throws Exception{
-		DBUtil dbUtil = new DBUtil();
-		String sql = "SELECT staff_id, first_name, last_name, active FROM staff";
+		DBUtil dbUtil = new DBUtil();		
 		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT staff_id, first_name, last_name, active FROM sakila_staff";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		
@@ -87,7 +87,7 @@ public class StaffDao {
 	public ArrayList<Integer> selectStaffIdListAll() throws Exception{
 	      DBUtil dbutil = new DBUtil();
 	      Connection conn = dbutil.getConnection();
-	      String sql = "SELECT staff_id FROM staff";
+	      String sql = "SELECT staff_id FROM sakila_staff";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      ResultSet rs = stmt.executeQuery();
 	      ArrayList<Integer> list = new ArrayList<Integer>();

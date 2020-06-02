@@ -10,7 +10,7 @@ public class StoreDao {
 	public int insertStoreFormAction(Staff staff, int addressId) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "INSERT INTO store(manager_staff_id, address_id, last_update) VALUES (?, ?, now())";
+		String sql = "INSERT INTO sakila_store(manager_staff_id, address_id, last_update) VALUES (?, ?, now())";
 		PreparedStatement stmt = conn.prepareStatement(sql ,Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, staff.getStaffId());
 		stmt.setInt(2, addressId);
@@ -26,7 +26,7 @@ public class StoreDao {
 	public ArrayList<StoreAndStaff> selectStoreListAll() throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT so.*, st.* FROM store so INNER JOIN staff st ON so.store_id = st.store_id ORDER BY so.store_id ASC";
+		String sql = "SELECT so.*, st.* FROM sakila_store so INNER JOIN staff st ON so.store_id = st.store_id ORDER BY so.store_id ASC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<StoreAndStaff> list = new ArrayList<StoreAndStaff>();
@@ -48,7 +48,7 @@ public class StoreDao {
 	public ArrayList<Store> selectStoreIdList() throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT store_id FROM store ORDER BY store_id";
+		String sql = "SELECT store_id FROM sakila_store ORDER BY store_id";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<Store> list = new ArrayList<Store>();

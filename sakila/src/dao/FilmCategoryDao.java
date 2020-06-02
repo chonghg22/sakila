@@ -9,7 +9,7 @@ public class FilmCategoryDao {
 	public ArrayList<FilmCategory> selectfilmCategory() throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT * FROM film_category";
+		String sql = "SELECT * FROM sakila_film_category";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<FilmCategory> list = new ArrayList<FilmCategory>();

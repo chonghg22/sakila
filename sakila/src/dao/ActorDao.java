@@ -8,7 +8,7 @@ public class ActorDao {
 	public void updateActor(Actor actor) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "UPDATE actor SET first_name=?, last_name=? WHERE actor_id=?";
+		String sql = "UPDATE actor SET first_name=?, last_name=? WHERE sakila_actor_id=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, actor.getFirstName());
 		stmt.setString(2, actor.getLastName());
@@ -17,17 +17,17 @@ public class ActorDao {
 	}
 	
 	public void deleteActor(int actorId) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("delete FROM actor where actor_id=?");
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM sakila_actor WHERE actor_id=?");
 		stmt.setInt(1, actorId);
 		stmt.executeUpdate();
 	}
 	public int selectTotalCount() throws Exception {
 		//SELECT COUNT(*) FROM actor 필요
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM actor");
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM sakila_actor");
 		ResultSet rs = stmt.executeQuery();
 		int totalCount = 0;
 		if(rs.next()) {
@@ -38,9 +38,9 @@ public class ActorDao {
 	public ArrayList<Actor> selectActorByPage( String searchWord,int beginRow, int rowPerPage) throws Exception{
 		System.out.println(beginRow +"/1/class");
 		System.out.println(rowPerPage + "/2/class");
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("select * from actor WHERE first_name like ? ORDER BY actor_id limit ?,?");
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM sakila_actor WHERE first_name LIKE ? ORDER BY actor_id LIMIT ?,?");
 		stmt.setString(1, "%"+searchWord+"%");
 		stmt.setInt(2, beginRow);
 		stmt.setInt(3, rowPerPage);		
@@ -59,9 +59,9 @@ public class ActorDao {
 	}
 	
 	public void insertActor(Actor actor) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila","root","java1234");
-		PreparedStatement stmt = conn.prepareStatement("insert into actor( first_name, last_name, last_update) values (?,?, now())");
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO sakila_actor( first_name, last_name, last_update) VALUES (?,?, now())");
 		stmt.setString(1, actor.getFirstName());
 		stmt.setString(2, actor.getLastName());
 		stmt.executeQuery();

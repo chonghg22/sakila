@@ -13,7 +13,8 @@ public class RentalDao {
 		Connection conn = dbUtil.getConnection();
 		//荑쇰━ 以�鍮�
 		String sql = 
-		"SELECT r.*, i.*, c.*,s.* FROM rental r INNER JOIN inventory i INNER JOIN customer c INNER JOIN staff s ON r.staff_id = s.staff_id AND r.customer_id = c.customer_id AND r.inventory_id = i.inventory_id WHERE r.inventory_id like ? ORDER BY c.customer_id";
+		"SELECT r.*, i.*, c.*,s.* FROM sakila_rental r INNER JOIN sakila_inventory i INNER JOIN sakila_customer c INNER JOIN sakila_staff s "
+		+ "ON r.staff_id = s.staff_id AND r.customer_id = c.customer_id AND r.inventory_id = i.inventory_id WHERE r.inventory_id like ? ORDER BY c.customer_id";
 		//荑쇰━ �떎�뻾
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,"%"+searchWord+"%");
@@ -79,7 +80,7 @@ public class RentalDao {
 		System.out.println(rental+"<--rental");
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "INSERT INTO rental(rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_Update) VALUES(?, ?, ?, ?, ?, ?, now())";
+		String sql = "INSERT INTO sakila_rental(rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_Update) VALUES(?, ?, ?, ?, ?, ?, now())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, rental.getRentalId());
 		stmt.setString(2, rental.getRentalDate());
@@ -93,7 +94,7 @@ public class RentalDao {
 	public ArrayList<Integer> selectRentalIdListAll() throws Exception{
 	      DBUtil dbutil = new DBUtil();
 	      Connection conn = dbutil.getConnection();
-	      String sql = "SELECT rental_id FROM rental";
+	      String sql = "SELECT rental_id FROM sakila_rental";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      ResultSet rs = stmt.executeQuery();
 	      ArrayList<Integer> list = new ArrayList<Integer>();

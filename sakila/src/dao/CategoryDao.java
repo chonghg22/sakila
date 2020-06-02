@@ -11,9 +11,9 @@ public class CategoryDao {
 	
 	
 	public int selectTotalCount() throws Exception{
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM category");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM sakila_category");
 		ResultSet rs = stmt.executeQuery();
 		int totalCount = 0;
 		if(rs.next()) {
@@ -28,7 +28,7 @@ public class CategoryDao {
 		//System.out.println(category.lastUpdate +"</3/categoryDao");
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "update category set name=? where category_id=?";		
+		String sql = "update sakila_category set name=? where category_id=?";		
 		//System.out.println(conn + "conn.updateDao");
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, category.getName());
@@ -41,14 +41,9 @@ public class CategoryDao {
 		
 	}
 	public void deleteCategory(int categoryId) throws Exception {
-		String driver = "org.mariadb.jdbc.Driver";
-		String dbaddr = "jdbc:mariadb://localhost:3306/sakila";
-		String dbid = "root";
-		String dbpw = "java1234";
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(dbaddr, dbid, dbpw);//변수내 코드가 아니라 상수값을 넣는건 좋지 않음
-		System.out.println(conn + "conn.deleteDao");
-		PreparedStatement stmt = conn.prepareStatement("delete from category where category_id=?");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM sakila_category WHERE category_id=?");
 		System.out.println(stmt+"deleteDao");
 		stmt.setInt(1, categoryId);
 		int row = stmt.executeUpdate();
@@ -60,9 +55,9 @@ public class CategoryDao {
 	}
 	
 	public void insertCategory(Category category) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("insert into category(category_id, name, last_update) values (?,?, now())");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO sakila_category(category_id, name, last_update) VALUES (?,?, now())");
 													
 		stmt.setInt(1, category.getCategoryId());
 		stmt.setString(2, category.getName());
@@ -73,12 +68,11 @@ public class CategoryDao {
 	public Category selectCategoryOne(int categoryId) throws Exception {//throws Exception은 서버연결 오류 해결해주는 메소드 
 		
 		
-		Class.forName("org.mariadb.jdbc.Driver");
-		
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
 		System.out.println(conn);
 		
-		PreparedStatement stmt = conn.prepareStatement("select * from category where category_id=?");
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM sakila_category WHERE category_id=?");
 														
 		stmt.setInt(1, categoryId);
 		
@@ -103,9 +97,9 @@ public class CategoryDao {
 	
 	// select* from category
 	public ArrayList<Category> selectCategoryAll(String searchWord, int beginRow, int rowPerPage) throws Exception{
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila","root","java1234");
-		PreparedStatement stmt = conn.prepareStatement("select category_id,name,last_update from category WHERE name like ? ORDER BY category_id LIMIT ?,?");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT category_id,name,last_update FROM sakila_category WHERE name LIKE ? ORDER BY category_id LIMIT ?,?");
 		stmt.setString(1, "%"+searchWord+"%");
 		stmt.setInt(2, beginRow);
 		stmt.setInt(3, rowPerPage);

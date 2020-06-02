@@ -10,9 +10,9 @@ public class CustomerDao {
 	}
 	public int selectTotalCount() throws Exception {
 		//SELECT COUNT(*) FROM actor 필요
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM customer");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM sakila_customer");
 		ResultSet rs = stmt.executeQuery();
 		int totalCount = 0;
 		if(rs.next()) {
@@ -21,17 +21,17 @@ public class CustomerDao {
 		return totalCount;
 	}
 	public void deleteCustomer(int customerId) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("delete FROM customer where customer_id=?");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM sakila_customer WHERE customer_id=?");
 		stmt.setInt(1, customerId);
 		stmt.executeUpdate();
 	}
 	public ArrayList<CustomerAndStoreAndAddress> selectCustomerListAll(String searchWord, int beginRow, int rowPerPage) throws Exception {
 		DBUtil dbUtil = new DBUtil();
-		String sql = "SELECT cu.*, ad.*, so.* FROM customer cu INNER JOIN address ad INNER JOIN store so ON cu.address_id = ad.address_id AND cu.store_id = so.store_id "
-				+ "WHERE cu.first_name  like ? ORDER BY cu.customer_id limit ?,?";
 		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT cu.*, ad.*, so.* FROM sakila_customer cu INNER JOIN sakila_address ad INNER JOIN sakila_store so ON cu.address_id = ad.address_id AND cu.store_id = so.store_id "
+				+ "WHERE cu.first_name  like ? ORDER BY cu.customer_id limit ?,?";		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "%"+searchWord+"%");
 		stmt.setInt(2, beginRow);
@@ -66,8 +66,8 @@ public class CustomerDao {
 	
 	public void insertCustomerFormAction(Customer customer) throws Exception {
 		DBUtil dbUtil = new DBUtil();
-		String sql ="INSERT INTO customer(store_id, first_name, last_name, email, address_id, active, create_date, last_update) VALUES (?, ?, ?, ?, ?, ?, now(), now())"; 
 		Connection conn = dbUtil.getConnection();
+		String sql ="INSERT INTO sakila_customer(store_id, first_name, last_name, email, address_id, active, create_date, last_update) VALUES (?, ?, ?, ?, ?, ?, now(), now())"; 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customer.getStoreId());
 		stmt.setString(2, customer.getFirstName());
@@ -80,7 +80,7 @@ public class CustomerDao {
 	public ArrayList<Integer> selectCustomerIdListAll() throws Exception{
 	      DBUtil dbutil = new DBUtil();
 	      Connection conn = dbutil.getConnection();
-	      String sql = "SELECT customer_id FROM customer";
+	      String sql = "SELECT customer_id FROM sakila_customer";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      ResultSet rs = stmt.executeQuery();
 	      ArrayList<Integer> list = new ArrayList<Integer>();

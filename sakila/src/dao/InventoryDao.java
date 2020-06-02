@@ -15,7 +15,7 @@ public class InventoryDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 
-		String sql = "SELECT i.*, st.*, f.* FROM inventory i INNER JOIN store st INNER JOIN film f ON i.film_id = f.film_id AND i.store_id = st.store_id "
+		String sql = "SELECT i.*, st.*, f.* FROM sakila_inventory i INNER JOIN sakila_store st INNER JOIN sakila_film f ON i.film_id = f.film_id AND i.store_id = st.store_id "
 				+ "WHERE f.title like ? ORDER BY i.inventory_id";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -69,11 +69,9 @@ public class InventoryDao {
 		System.out.println("InventoryDao.insertInventory()");
 		System.out.println(i.getFilmId() + " <-- i.getFilmId");
 		System.out.println(i.getStoreId() + " <-- i.getStoreId");
-
-		String sql = "INSERT INTO inventory(film_id, store_id, last_update) VALUES(?, ?, now())";
-
-		DBUtil dbutil = new DBUtil();
-		Connection conn = dbutil.getConnection();
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT INTO sakila_inventory(film_id, store_id, last_update) VALUES(?, ?, now())";		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, i.getFilmId());
 		stmt.setInt(2, i.getStoreId());

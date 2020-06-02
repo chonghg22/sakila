@@ -8,16 +8,16 @@ import java.util.*;
 
 public class AddressDao {
 	public void deleteAddress(int addressId) throws Exception {
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "java1234");
-		PreparedStatement stmt = conn.prepareStatement("delete FROM address where address_id=?");
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM sakila_address WHERE address_id=?");
 		stmt.setInt(1, addressId);
 		stmt.executeUpdate();
 	}
 	public void updateAddress(Address address) throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "UPDATE address SET address=?, address2=?, district=?, city_id=?, postal_code=?, phone=? WHERE address_id=?";
+		String sql = "UPDATE sakila_address SET address=?, address2=?, district=?, city_id=?, postal_code=?, phone=? WHERE address_id=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, address.getAddress());
 		stmt.setString(2, address.getAddress2());
@@ -31,7 +31,7 @@ public class AddressDao {
 	public int SelectCountAddress() throws Exception{
 	      DBUtil dbUtil = new DBUtil();
 	      Connection conn = dbUtil.getConnection();
-	      String sql = "SELECT COUNT(*) cnt FROM address";
+	      String sql = "SELECT COUNT(*) cnt FROM sakila_address";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      ResultSet rs = stmt.executeQuery();
 	      int totalCount = 0;
@@ -45,7 +45,7 @@ public class AddressDao {
 	public ArrayList<Address> SelectAddressOne() throws Exception{
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT * FROM address";
+		String sql = "SELECT * FROM sakila_address";
 		PreparedStatement stmt = conn.prepareStatement(sql); 
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<Address> list = new ArrayList<Address>();
@@ -70,8 +70,8 @@ public class AddressDao {
 		  System.out.println(searchWord + "/searchWrod");
 	      DBUtil dbUtil = new DBUtil();
 	      Connection conn = dbUtil.getConnection();
-	      String sql = "SELECT ad.*,co.*,ci.* FROM address ad INNER JOIN country co INNER JOIN city ci "
-	      		+ "ON ad.city_id = ci.city_id AND ci.country_id = co.country_id WHERE ad.address like ? ORDER BY ad.address_id limit ?,?";
+	      String sql = "SELECT ad.*,co.*,ci.* FROM sakila_address ad INNER JOIN sakila_country co INNER JOIN sakila_city ci "
+	      		+ "ON ad.city_id = ci.city_id AND ci.country_id = co.country_id WHERE ad.address LIKE ? ORDER BY ad.address_id LIMIT ?,?";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      stmt.setString(1, "%"+searchWord+"%");
 	      stmt.setInt(2, beginRow);
@@ -142,11 +142,11 @@ public class AddressDao {
 		System.out.println(a.getPostalCode() + " <-- a.getPostalCode");
 		System.out.println(a.getPhone() + " <-- a.getPhone");
 		
-		String sql = 
-		"INSERT INTO address(address, address2, district, city_id, postal_code, phone, last_update) VALUES(?, ?, ?, ?, ?, ?, now())";
+		
 		
 		DBUtil dbutil = new DBUtil();
 		Connection conn = dbutil.getConnection();
+		String sql = "INSERT INTO sakila_address(address, address2, district, city_id, postal_code, phone, last_update) VALUES(?, ?, ?, ?, ?, ?, now())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, a.getAddress());
 		stmt.setString(2, a.getAddress2());
@@ -162,7 +162,7 @@ public class AddressDao {
 		Connection conn = dbutil.getConnection();
 		
 		String sql =
-		"INSERT INTO address(address_id, address, address2, district, city_id, postal_code, phone, last_update)"
+		"INSERT INTO sakila_address(address_id, address, address2, district, city_id, postal_code, phone, last_update)"
 		+ "VALUES(?, ?, ?, ?, ?, ?, ?, now())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

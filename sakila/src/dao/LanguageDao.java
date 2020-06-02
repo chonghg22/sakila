@@ -10,7 +10,7 @@ public class LanguageDao {
 	public ArrayList<Language> selectLanguageIdListAll() throws Exception{
 		DBUtil dbutil = new DBUtil();
 		Connection conn = dbutil.getConnection();
-		String sql = "SELECT language_id, name FROM language";
+		String sql = "SELECT language_id, name FROM sakila_language";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<Language> list = new ArrayList<Language>();
@@ -26,7 +26,7 @@ public class LanguageDao {
 		   public ArrayList<Language> selectLanguageListAll(String searchword) throws Exception{
 		      DBUtil dbutil = new DBUtil();
 		      Connection conn = dbutil.getConnection();
-		      String sql = "SELECT * FROM language WHERE name like ?";
+		      String sql = "SELECT * FROM sakila_language WHERE name like ?";
 		      PreparedStatement stmt = conn.prepareStatement(sql);
 		      stmt.setString(1, "%"+searchword+"%");
 		      ResultSet rs = stmt.executeQuery();
